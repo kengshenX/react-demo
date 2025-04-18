@@ -2,10 +2,12 @@ import './App.css'
 import { useMemo, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import { fib, NUM_LIST } from './util';
-import { useStatisticsQuery } from './queries';
+import { refreshStatistics, useStatisticsQuery } from './queries';
 import { Platform } from './api';
+import { useQueryClient } from '@tanstack/react-query';
 
 function App() {
+  const queryClient = useQueryClient();
   const [count, setCount] = useState(0)
   const [inputValue, setInputValue] = useState<Platform>(Platform.INSTAGRAM);
   const {isLoading, data, isError} = useStatisticsQuery({ platform: inputValue });
@@ -58,7 +60,6 @@ function App() {
           }
         </select>
       </div>
-      
       <p className="read-the-docs">
         {
           isLoading ? <span>Loading...</span>
@@ -68,6 +69,9 @@ function App() {
           )
         }
       </p>
+      <div>
+        <button onClick={() => refreshStatistics(queryClient)}>clear data</button>
+      </div>
     </>
   )
 }
