@@ -11,8 +11,8 @@ export const useStatisticsQuery = (filter?: FilterType) => {
     });
 };
 
-export const refreshStatistics = (queryClient: QueryClient) => {
+export const refreshStatistics = (queryClient: QueryClient, filter?: FilterType) => {
     queryClient.invalidateQueries({
-        queryKey: ['statistics'],
+        queryKey: ['statistics', filter || {}],
     });
 }

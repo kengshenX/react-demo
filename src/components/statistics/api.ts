@@ -1,4 +1,4 @@
-import data from '../data.json';
+import data from './data.json';
 
 export enum Platform {
     INSTAGRAM = 'Instagram',
@@ -35,6 +35,7 @@ interface ApiResponse<T> {
 
 // Mock API use promise
 export const fetchAll = (filter?: FilterType) => {
+    console.log('run fetchAll', filter);
     return new Promise<ApiResponse<StatisticsData>>((resolve) => {
         setTimeout(() => {
             let resData = data;
@@ -46,10 +47,8 @@ export const fetchAll = (filter?: FilterType) => {
                 }
             }
 
-            const statisticDTO = staticticsAdapter(resData as DataItem[]);
-
             resolve({
-                data: statisticDTO,
+                data: staticticsAdapter(resData as DataItem[]),
                 success: true,
                 message: 'Data fetched successfully',
             });

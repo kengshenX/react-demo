@@ -1,28 +1,19 @@
 import './App.css'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import { fib, NUM_LIST } from './util';
-import { refreshStatistics, useStatisticsQuery } from './queries';
-import { Platform } from './api';
+import { DataItem, fetchAll, Platform, StatisticsData } from './components/statistics/api';
+import { refreshStatistics, useStatisticsQuery } from './components/statistics/queries';
 import { useQueryClient } from '@tanstack/react-query';
 
 function App() {
   const queryClient = useQueryClient();
   const [count, setCount] = useState(0)
-  const [inputValue, setInputValue] = useState<Platform>(Platform.INSTAGRAM);
-  const {isLoading, data, isError} = useStatisticsQuery({ platform: inputValue });
+  const [inputValue, setInputValue] = useState<Platform>(Platform.INSTAGRAM)
+  const fibValue = useMemo(() => fib(count), [count]);
+  const { isLoading, isError, data } = useStatisticsQuery({ platform: inputValue })
 
-  const {
-    statistics,
-    followerTotal,
-    averageFollower,
-    viewTotal,
-    averageView,
-  } = data || {};
-
-  const fibValue = useMemo(() => {
-    return fib(count);
-  }, [count]);
+  const { statistics, followerTotal, averageFollower, viewTotal, averageView } = data || {};
 
   return (
     <>
